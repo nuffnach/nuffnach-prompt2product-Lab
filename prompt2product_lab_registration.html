@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt2Product Lab™ Registration</title>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .section-padding {
+      padding: 4rem 1rem;
+    }
+    .cta-btn {
+      background-color: #3b82f6;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    .cta-btn:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Hero Section -->
+  <section class="bg-blue-600 text-white text-center section-padding">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Prompt2Product Lab™</h1>
+      <p class="text-lg md:text-xl mb-6">Turn your prompts into profitable AI products — in 30 days.</p>
+      <a href="#register" class="cta-btn">Register Now</a>
+    </div>
+  </section>
+
+  <!-- What You'll Learn Section -->
+  <section class="bg-white section-padding">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">What You'll Learn</h2>
+      <ul class="list-disc list-inside space-y-2 text-gray-700">
+        <li>Prompt Engineering (Value $199)</li>
+        <li>No-Code AI Tools (Framer, Notion, Glide)</li>
+        <li>Build + Monetize Real AI Products</li>
+        <li>AI Agents and Automation Systems</li>
+        <li>Live Projects + Portfolio Development</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Who It's For Section -->
+  <section class="bg-gray-50 section-padding">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Who It's For</h2>
+      <ul class="list-disc list-inside space-y-2 text-gray-700">
+        <li>Beginners & Creators</li>
+        <li>Freelancers & Entrepreneurs</li>
+        <li>Non-tech Founders</li>
+        <li>Anyone who wants to turn ideas into income using AI</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="bg-white section-padding" id="pricing">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Pricing</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border rounded-lg p-6 text-center bg-gray-50">
+          <h3 class="text-xl font-semibold mb-2">Starter</h3>
+          <p class="text-gray-600 mb-4">All 4 Weeks + Replays</p>
+          <p class="text-2xl font-bold mb-4">₦75,000</p>
+        </div>
+        <div class="border rounded-lg p-6 text-center bg-gray-50">
+          <h3 class="text-xl font-semibold mb-2">Pro</h3>
+          <p class="text-gray-600 mb-4">Starter + Templates + Mentorship</p>
+          <p class="text-2xl font-bold mb-4">₦120,000</p>
+        </div>
+        <div class="border rounded-lg p-6 text-center bg-gray-50">
+          <h3 class="text-xl font-semibold mb-2">VIP</h3>
+          <p class="text-gray-600 mb-4">All + Feedback + Lifetime Access</p>
+          <p class="text-2xl font-bold mb-4">₦150,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Form Section -->
+  <section class="bg-gray-100 section-padding" id="register">
+    <div class="max-w-lg mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Register Now</h2>
+      <form id="paystackForm" class="space-y-4">
+        <input type="text" id="name" placeholder="Full Name" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <input type="email" id="email" placeholder="Email" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <input type="tel" id="phone" placeholder="Phone Number" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <select id="plan" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="75000">Starter - ₦75,000</option>
+          <option value="120000">Pro - ₦120,000</option>
+          <option value="150000">VIP - ₦150,000</option>
+        </select>
+        <button type="button" onclick="payWithPaystack()" class="w-full cta-btn">Register & Pay</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Paystack and ConvertKit Script -->
+  <script>
+    function payWithPaystack() {
+      let email = document.getElementById("email").value;
+      let amount = document.getElementById("plan").value * 100; // kobo
+      let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+      let plan = document.getElementById("plan").options[document.getElementById("plan").selectedIndex].text;
+
+      var handler = PaystackPop.setup({
+        key: 'sk_live_d6712256061c459c3bbe8b2b66b56057be08fa04',
+        email: email,
+        amount: amount,
+        currency: 'NGN',
+        ref: '' + Math.floor(Math.random() * 1000000000 + 1),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: name,
+              variable_name: "mobile_number",
+              value: phone,
+            },
+          ],
+        },
+        callback: function(response) {
+          alert('Payment successful. Ref: ' + response.reference);
+          // Send data to ConvertKit
+          subscribeToConvertKit(name, email, phone, plan, response.reference);
+          // Redirect to WhatsApp
+          window.location.href = "https://wa.me/2348081533061?text=Hi%20I%20just%20registered%20for%20Prompt2Product%20Lab!";
+        },
+        onClose: function() {
+          alert('Payment window closed.');
+        }
+      });
+      handler.openIframe();
+    }
+
+    function subscribeToConvertKit(name, email, phone, plan, paymentRef) {
+      const formId = 'YOUR_CONVERTKIT_FORM_ID'; // Replace with your ConvertKit form ID
+      const apiKey = 'YOUR_CONVERTKIT_API_KEY'; // Replace with your ConvertKit API key
+      const apiUrl = `https://api.convertkit.com/v3/forms/${formId}/subscribe`;
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          api_key: apiKey,
+          email: email,
+          first_name: name,
+          fields: {
+            phone: phone,
+            plan: plan,
+            payment_reference: paymentRef
+          }
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Successfully subscribed to ConvertKit:', data);
+      })
+      .catch(error => {
+        console.error('Error subscribing to ConvertKit:', error);
+        alert('Failed to send confirmation email. Please contact support.');
+      });
+    }
+  </script>
+
+  <!-- WhatsApp Floating Button -->
+  <script type="text/javascript">
+    (function () {
+      var options = {
+        whatsapp: "2348081533061",
+        call_to_action: "Chat with us on WhatsApp",
+        position: "right",
+      };
+      var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
+      var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+      s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+      var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+  </script>
+</body>
+</html>
